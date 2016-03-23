@@ -5,6 +5,7 @@ package org.openpreservation.sentitment;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,4 +53,61 @@ public class MainTest {
 
 		}
 	}
+
+	/**
+	 * Test method for
+	 * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)} .
+	 */
+	@Test
+	public void testCleanupUsername() {
+		String input = "@SoftwareSaved You're awesome";
+		String expected = " You're awesome";
+
+		String actual = Main.cleanup(input);
+
+		assertEquals("failure - remove twitter username", expected, actual);
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)} .
+	 */
+	@Test
+	public void testCleanupHashtag() {
+		String input = "SSI is awesome #collabw16";
+		String expected = "SSI is awesome";
+
+		String actual = Main.cleanup(input);
+
+		assertEquals("failure - remove hashtag", expected, actual);
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)} .
+	 */
+	@Test
+	public void testCleanupURL() {
+		String input = "Everyone take a look at the SSI: https://www.software.ac.uk!";
+		String expected = "Everyone take a look at the SSI:!";
+
+		String actual = Main.cleanup(input);
+
+		assertEquals("failure - remove URL", expected, actual);
+	}
+
+	/**
+   * Test method for
+   * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)}
+   * .
+   */
+  @Test
+  public void testCleanup() {
+    String input = "@everyone take a look at the Sustainable Software Institute: https://www.software.ac.uk, it's awesome #collabw16";
+    String expected = " take a look at the Sustainable Software Institute:, it's awesome";
+
+    String actual = Main.cleanup(input);
+
+    assertEquals("failure - remove URL", expected, actual);
+  }
 }

@@ -5,7 +5,6 @@ package org.openpreservation.sentiment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.twitter.Regex;
 
 /**
  * @author Gary Macindoe
@@ -103,19 +103,21 @@ public final class Main {
 		}
 	}
 
-	/**
-	 * Removes @usernames, #hashtags and http(s)://urls from a string using
-	 * regular expressions.
-	 *
-	 * @param text
-	 *            the input string
-	 *
-	 * @return the input string with @usernames, #hashtags and http(s)://urls
-	 *         removed.
-	 */
-	public static String cleanup(String text) {
-		return text; // TODO - use String.replaceAll(String
-						// regex).replaceAll()...
-	}
+  /**
+   * Removes @usernames, #hashtags and http(s)://urls from a string using
+   * regular expressions.
+   *
+   * @param text  the input string
+   *
+   * @return the input string with @usernames, #hashtags and http(s)://urls
+   * removed.
+   */
+  public static String cleanup(String text) {
+    text = Regex.VALID_HASHTAG.matcher(text).replaceAll("");
+    text = Regex.VALID_MENTION_OR_LIST.matcher(text).replaceAll("");
+    text = Regex.VALID_REPLY.matcher(text).replaceAll("");
+    text = Regex.VALID_URL.matcher(text).replaceAll("");
+    return text;
+  }
 
 }
