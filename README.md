@@ -20,6 +20,7 @@ analysis on the tweet portion of the CSV and outputs another CSV of the form:
 
  - [Stanford NLP Library](http://stanfordnlp.github.io/CoreNLP/index.html)
  - [OpenCSV](http://opencsv.sourceforge.net/)
+ - [twitter-text](https://github.com/twitter/twitter-text)
 
 ## Issues / Problems
 
