@@ -1,4 +1,6 @@
 # sentiment-analyser
+[![Build Status](https://travis-ci.org/sentimental-research/sentiment-analyser.svg?branch=master)](https://travis-ci.org/sentimental-research/sentiment-analyser)
+
 Prototype Java application that parses a CSV file of the form:
 
     userid , date , tweet , twitterId
