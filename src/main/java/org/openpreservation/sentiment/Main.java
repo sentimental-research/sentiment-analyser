@@ -86,11 +86,11 @@ public final class Main {
 					continue;
 				// Extract the tweet text (3rd field)
 				String tweet = csvLine[TWEET_TEXT];
+				if ((tweet == null) || tweet.isEmpty())
+					continue;
 
 				// Clean up the tweet
 				tweet = cleanup(tweet);
-				if ((tweet == null) || tweet.isEmpty())
-					continue;
 
 				// Calculate the score for the tweet
 				int score = SentimentAnalyser.calculateSentiment(tweet);
