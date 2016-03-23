@@ -34,8 +34,10 @@ public class MainTest {
 	@Test
 	public void testMain() throws IOException, FileNotFoundException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		File input = new File(classLoader.getResource("output_got.csv").getFile());
+		File input = new File(classLoader.getResource("tweets.csv").getFile());
 		File output = new File(input.getParent() + File.separator + "output_test.csv");
+		if (output.exists())
+			output.delete();
 		assertFalse(output.exists());
 
 		Reader reader = new BufferedReader(new FileReader(input));
@@ -45,12 +47,14 @@ public class MainTest {
 		System.out.println("finished");
 		assertTrue(output.exists());
 
-		try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(output)))) {
+		try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(output)), ',', '"')) {
 
 			String[] line;
-			while ((line = csvReader.readNext()) != null)
-				assertTrue(line.length == 5);
-
+			int lineCounter = 0;
+			while ((line = csvReader.readNext()) != null) {
+				lineCounter++;
+				assertTrue(lineCounter + ":" + line.length, line.length == 5);
+			}
 		}
 	}
 
@@ -97,17 +101,16 @@ public class MainTest {
 	}
 
 	/**
-   * Test method for
-   * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)}
-   * .
-   */
-  @Test
-  public void testCleanup() {
-    String input = "@everyone take a look at the Sustainable Software Institute: https://www.software.ac.uk, it's awesome #collabw16";
-    String expected = " take a look at the Sustainable Software Institute:, it's awesome";
+	 * Test method for
+	 * {@link org.openpreservation.sentiment.Main#cleanup(java.lang.String)} .
+	 */
+	@Test
+	public void testCleanup() {
+		String input = "@everyone take a look at the Sustainable Software Institute: https://www.software.ac.uk, it's awesome #collabw16";
+		String expected = " take a look at the Sustainable Software Institute:, it's awesome";
 
-    String actual = Main.cleanup(input);
+		String actual = Main.cleanup(input);
 
-    assertEquals("failure - remove URL", expected, actual);
-  }
+		assertEquals("failure - remove URL", expected, actual);
+	}
 }

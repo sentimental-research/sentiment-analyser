@@ -77,24 +77,26 @@ public final class Main {
 	public static void annotateCsv(final Reader input, final Writer output) throws IOException {
 		// Use ';' as field separator, '"' as field quote character
 		// skip first line as header
-		try (CSVReader reader = new CSVReader(input, ';', '"', 1); CSVWriter writer = new CSVWriter(output, ';', '"')) {
+		try (CSVReader reader = new CSVReader(input, ',', '"', 1); CSVWriter writer = new CSVWriter(output, ',', '"')) {
 			// Loop over all the tweets in the file
-			String[] tweet;
-			while ((tweet = reader.readNext()) != null) {
+			String[] csvLine;
+			while ((csvLine = reader.readNext()) != null) {
 				// Skip malformed lines
-				if (tweet.length < 3)
+				if (csvLine.length < 3)
 					continue;
 				// Extract the tweet text (3rd field)
-				String text = tweet[TWEET_TEXT];
+				String tweet = csvLine[TWEET_TEXT];
 
 				// Clean up the tweet
-				text = cleanup(text);
+				tweet = cleanup(tweet);
+				if ((tweet == null) || tweet.isEmpty())
+					continue;
 
 				// Calculate the score for the tweet
-				int score = SentimentAnalyser.calculateSentiment(text);
+				int score = SentimentAnalyser.calculateSentiment(tweet);
 
 				// Append the score to the CSV row
-				List<String> tweetList = new ArrayList<>(Arrays.asList(tweet));
+				List<String> tweetList = new ArrayList<>(Arrays.asList(csvLine));
 				tweetList.add(Integer.toString(score));
 
 				// Write out the line annotated with the score
