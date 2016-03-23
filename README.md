@@ -8,6 +8,23 @@ analysis on the tweet portion of the CSV and outputs another CSV of the form:
 
     userid ; date ; tweet ; twitterId ; sentimetScore
 
+## Building the application
+You'll need Java 8 and Maven in order to build and run the command line application.
+To build:
+  - checkout the project;
+  - go to the project root dir; and
+  - invoke the Maven packager.
+
+Command line instructions:
+
+    git clone https://github.com/sentimental-research/sentiment-analyser.git
+    cd sentiment-analyser
+    mvn clean package
+
+and to run / test the software:
+
+    java -jar target/sentiment-analyser-0.0.1-SNAPSHOT.jar src/test/resources/tweets.csv
+
 ## What this needs to do
 
  1. Read the tweets in from CSV using opencsv.sourceforge.net
