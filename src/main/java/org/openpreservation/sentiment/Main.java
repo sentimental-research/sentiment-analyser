@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package org.openpreservation.sentiment;
 
 import java.io.*;
@@ -7,11 +10,29 @@ import java.util.Arrays;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+/**
+ * @author Gary Macindoe
+ */
 public final class Main {
 
+  /**
+   * Index of tweeter in CSV row.
+   */
   public static final int TWEET_USER = 0;
+
+  /**
+   * Index of date in CSV row.
+   */
   public static final int TWEET_DATE = 1;
+
+  /**
+   * Index of tweet content in CSV row.
+   */
   public static final int TWEET_TEXT = 2;
+
+  /**
+   * Index of tweet ID in CSV row.
+   */
   public static final int TWEET_ID   = 3;
 
   public static void main(String[] args) {
@@ -24,6 +45,7 @@ public final class Main {
       System.exit(1);
     }
 
+    // Create reader from filename in args[0] or stdin if args is empty
     Reader input = null;
     try {
       input = new BufferedReader((args.length > 0) ? new FileReader(args[0])
@@ -36,6 +58,7 @@ public final class Main {
       System.exit(1);
     }
 
+    // Create writer from filename in args[1] or stdout if args.length <= 1
     Writer output = null;
     try {
       output = new BufferedWriter((args.length > 1) ? new FileWriter(args[1])
@@ -58,11 +81,11 @@ public final class Main {
     CSVWriter writer = new CSVWriter(output, ';', '"');
 
     // Loop over all the tweets in the file
-    List<String> tweet = null;
+    String[] tweet;
     try {
-      while ((tweet = Arrays.asList(reader.readNext())) != null) {
+      while ((tweet = reader.readNext()) != null) {
         // Extract the tweet text (3rd field)
-        String text = tweet.get(TWEET_TEXT);
+        String text = tweet[TWEET_TEXT];
 
         // Clean up the tweet
         text = cleanup(text);
@@ -71,10 +94,11 @@ public final class Main {
         int score = SentimentAnalyser.calculateSentiment(text);
 
         // Append the score to the CSV row
-        tweet.add(Integer.toString(score));
+        List<String> tweetList = Arrays.asList(tweet);
+        tweetList.add(Integer.toString(score));
 
         // Write out the line annotated with the score
-        writer.writeNext((String[])tweet.toArray());
+        writer.writeNext((String[])tweetList.toArray());
       }
     } catch (IOException e) {
       System.out.println(e.toString());
@@ -101,7 +125,7 @@ public final class Main {
    * @return the input string with @usernames, #hashtags and http(s)://urls
    * removed.
    */
-  private static String cleanup(String text) {
+  public static String cleanup(String text) {
     return text;  // TODO - use String.replaceAll(String regex).replaceAll()...
   }
 
