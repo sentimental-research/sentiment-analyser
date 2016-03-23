@@ -27,6 +27,24 @@ and to run / test the software:
 
     java -jar target/sentiment-analyser-0.0.1-SNAPSHOT.jar src/test/resources/tweets.csv
 
+## Usage
+The app will process the file found at the first arg location, or `stdin` when there
+are no args. I will output the results to a file named by the second arg or output the
+results to `stdout` if there is no second arg.
+
+### Examples
+Read `stdin` and output results to `stdout`:
+
+    java -jar target/sentiment-analyser-0.0.1-SNAPSHOT.jar
+
+Read file `~/tweets.csv` and output the results to `stdout`:
+
+    java -jar target/sentiment-analyser-0.0.1-SNAPSHOT.jar ~/tweets.csv
+
+Read file `~/tweets.csv` and output the results to `~/results.csv`:
+
+    java -jar target/sentiment-analyser-0.0.1-SNAPSHOT.jar ~/tweets.csv ~/results.csv
+
 ## What this needs to do
 
  1. Read the tweets in from CSV using [opencsv](http://opencsv.sourceforge.net)
