@@ -27,19 +27,17 @@ public final class SentimentAnalyser {
 		if (tweet.length() == 0) throw new IllegalArgumentException("Tweet cannot be empty");
 
         int mainSentiment = 0;
-        if (tweet != null && tweet.length() > 0) {
-            int longest = 0;
-            Annotation annotation = PIPELINE.process(tweet);
-            for (CoreMap sentence : annotation
-                    .get(CoreAnnotations.SentencesAnnotation.class)) {
-                Tree tree = sentence
-                        .get(SentimentAnnotatedTree.class);
-                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
-                String partText = sentence.toString();
-                if (partText.length() > longest) {
-                    mainSentiment = sentiment;
-                    longest = partText.length();
-                }
+        int longest = 0;
+        Annotation annotation = PIPELINE.process(tweet);
+        for (CoreMap sentence : annotation
+                .get(CoreAnnotations.SentencesAnnotation.class)) {
+            Tree tree = sentence
+                    .get(SentimentAnnotatedTree.class);
+            int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
+            String partText = sentence.toString();
+            if (partText.length() > longest) {
+                mainSentiment = sentiment;
+                longest = partText.length();
             }
         }
         return mainSentiment;
