@@ -10,6 +10,8 @@ import java.util.Arrays;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import com.twitter.Regex;
+
 /**
  * @author Gary Macindoe
  */
@@ -126,7 +128,11 @@ public final class Main {
    * removed.
    */
   public static String cleanup(String text) {
-    return text;  // TODO - use String.replaceAll(String regex).replaceAll()...
+    text = Regex.VALID_HASHTAG.matcher(text).replaceAll("");
+    text = Regex.VALID_MENTION_OR_LIST.matcher(text).replaceAll("");
+    text = Regex.VALID_REPLY.matcher(text).replaceAll("");
+    text = Regex.VALID_URL.matcher(text).replaceAll("");
+    return text;
   }
 
 }

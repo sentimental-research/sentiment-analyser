@@ -56,6 +56,11 @@
     <artifactId>opencsv</artifactId>
     <version>3.7</version>
   </dependency>
+  <dependency>
+    <groupId>com.twitter</groupId>
+    <artifactId>twitter-text</artifactId>
+    <version>1.13.4</version>
+  </dependency>
  </dependencies>
 
 </project>
